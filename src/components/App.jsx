@@ -16,6 +16,7 @@ export default class App extends Component {
     error: null,
     isLoading: false,
     showModal: null,
+    showBtn: false,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -53,6 +54,7 @@ export default class App extends Component {
           );
           this.setState({
             images: [...this.state.images, ...mappedImages],
+            showBtn: this.state.page < Math.ceil(data.totalHits / 12),
           });
         });
       } catch (error) {
@@ -92,7 +94,7 @@ export default class App extends Component {
   };
 
   render() {
-    const { images, isLoading, error, showModal } = this.state;
+    const { images, isLoading, showBtn, error, showModal } = this.state;
     return (
       <>
         <Searchbar onSearch={this.handleSearchSubmit} />
@@ -100,7 +102,8 @@ export default class App extends Component {
         {images.length > 0 && (
           <>
             <ImageGallery images={images} handlePreview={this.showModalImage} />
-            <Button loadMore={this.loadMore} />
+            {showBtn && <Button loadMore={this.loadMore} />}
+            {/* <Button loadMore={this.loadMore} /> */}
           </>
         )}
         {isLoading && <Loader color={'#3f51b5'} size={200} />}

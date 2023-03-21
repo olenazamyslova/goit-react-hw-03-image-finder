@@ -3,7 +3,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Searchbar from './Searchbar/Searchbar';
 import ImageGallery from './ImageGallery/ImageGallery';
-import Modal from './ImageGallery/Modal/Modal';
+import Modal from './Modal/Modal';
 import Button from './Button/Button';
 import Loader from './Loader/Loader';
 import { fetchImages } from 'components/services/fetchImages';
@@ -52,10 +52,12 @@ export default class App extends Component {
               largeImageURL,
             })
           );
+
           this.setState({
             images: [...this.state.images, ...mappedImages],
-            showBtn: this.state.page < Math.ceil(data.totalHits / 12),
+            showBtn: this.state.galleryPage < Math.ceil(data.data.totalHits / 12),
           });
+          console.log(data.data.totalHits);
         });
       } catch (error) {
         this.setState({ error });
